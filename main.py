@@ -2,6 +2,7 @@
 
 import markovify
 import os
+from ArgParser import ArgParser
 
 def getFileNames(folder):
     *_, walk = os.walk(folder)
@@ -23,26 +24,31 @@ def splitText(text):
 
 
 if __name__ == "__main__":
-    STATE_SIZE = 2
-    NUM_STORIES = 5
-    INIT_STATE = ("I", "am")
+    parser = ArgParser()
+    args = parser.parse_args()
     
-    DATA_FOLDER = "Data"
-    
-    fileNames = getFileNames(DATA_FOLDER)
-    text = splitText(loadData(DATA_FOLDER, fileNames))
+    fileNames = getFileNames(args.data_folder)
+    text = splitText(loadData(args.data_folder, fileNames))
 
     # Create a list of markov chains for combination
-    chains = [markovify.Chain(text, state_size=STATE_SIZE) for t in text]
+    chains = [markovify.Chain(text, state_size=args.state_size) for t in text]
 
     # Combine all chains
     chain = markovify.combine(chains)
 
     # Generate stories
     stories = []
-    for i in range(NUM_STORIES):
-        if INIT_STATE:
-            gen = [i for i in chain.gen(init_state=INIT_STATE)]
+    init_state = tuple(args.init_state.split(" "))
+    if len(init_state) != args.state_size:
+        print("Length of init_state must be equal to state_size. Received length {} and state size {}".format(len(init_state), args.state_size))
+        exit(1)
+    for i in range(args.num_stories):
+        if init_state:
+            try:
+                gen = [i for i in chain.gen(init_state=init_state)]
+            except KeyError:
+                print("Could not generate a story with the init_state {}".format(init_state))
+                exit(1)
         else:
             gen = [i for i in chain.gen()]
             
@@ -50,5 +56,5 @@ if __name__ == "__main__":
 
     # Enjoy the masterpieces
     for story in stories:
-        print(" ".join(INIT_STATE), story)
+        print(" ".join(init_state), story)
         print("---------------------------------------------------------\n")
