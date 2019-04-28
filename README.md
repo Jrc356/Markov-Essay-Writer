@@ -32,5 +32,5 @@ I spent two Venus flytrap. Consequently, the achievement in a fire within people
 If you add an essay to the Data folder you can use the rename.sh file to rename the files in there so that it looks nicer on the eyes. Do this by:  
 `./rename Data`
 
-#NOTE  
+# NOTE  
 This is not intended to actually write useable essays; it is only for fun. If you, for any reason, use this to write your essays, I am not responsible for the F you will inevitably receive :) 
