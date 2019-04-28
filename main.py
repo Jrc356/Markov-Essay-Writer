@@ -1,5 +1,3 @@
-#!/usr/bin/python3
-
 import markovify
 import os
 from ArgParser import ArgParser
@@ -38,10 +36,11 @@ if __name__ == "__main__":
 
     # Generate stories
     stories = []
-    init_state = tuple(args.init_state.split(" "))
-    if len(init_state) != args.state_size:
+    init_state = tuple(args.init_state.split(" ")) if args.init_state else ()
+    if args.init_state and len(init_state) != args.state_size:
         print("Length of init_state must be equal to state_size. Received length {} and state size {}".format(len(init_state), args.state_size))
         exit(1)
+        
     for i in range(args.num_stories):
         if init_state:
             try:
