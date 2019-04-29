@@ -33,4 +33,4 @@ I spent two Venus flytrap. Consequently, the achievement in a fire within people
 
 ## Adding Data
 If you add an essay to the Data folder you can use the rename.sh file to rename the files in there so that it looks nicer on the eyes. Do this by:  
-`./rename Data`
+`./rename.sh Data`
